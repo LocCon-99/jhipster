@@ -11,16 +11,6 @@ export const BrandIcon = props => (
   </div>
 );
 
-export const Brand = () => (
-  <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
-    <span className="brand-title">
-      <Translate contentKey="global.title">Demo_jhipster</Translate>
-    </span>
-    <span className="navbar-version">{VERSION}</span>
-  </NavbarBrand>
-);
-
 export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">

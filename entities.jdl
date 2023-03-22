@@ -1,0 +1,9 @@
+entity Category {
+    name String,
+    description String,
+    status String
+}
+
+dto * with mapstruct
+service all with serviceImpl
+paginate Category with pagination
