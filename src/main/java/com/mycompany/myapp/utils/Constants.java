@@ -1,6 +1,8 @@
 package com.mycompany.myapp.utils;
 
-public final class contants {
+import java.util.Collection;
+
+public final class Constants {
 
     public static class Status {
 

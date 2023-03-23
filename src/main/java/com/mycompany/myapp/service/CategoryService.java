@@ -1,7 +1,7 @@
 package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.model.CategoryRequest;
-import com.mycompany.myapp.model.CategoryResponse;
+import com.mycompany.myapp.model.response.CategoryResponse;
 import com.mycompany.myapp.service.dto.CategoryDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
