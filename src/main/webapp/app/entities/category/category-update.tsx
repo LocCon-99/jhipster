@@ -101,13 +101,6 @@ export const CategoryUpdate = () => {
                 data-cy="description"
                 type="text"
               />
-              <ValidatedField
-                label={translate('demoJhipsterApp.category.status')}
-                id="category-status"
-                name="status"
-                data-cy="status"
-                type="text"
-              />
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/category" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

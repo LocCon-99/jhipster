@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.model.CategoryRequest;
 import com.mycompany.myapp.repository.CategoryRepository;
 import com.mycompany.myapp.service.CategoryService;
 import com.mycompany.myapp.service.dto.CategoryDTO;
@@ -177,5 +178,15 @@ public class CategoryResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/categories/search")
+    public ResponseEntity<List<CategoryDTO>> search(
+        @RequestBody CategoryRequest categoryRequest,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        Page<CategoryDTO> page = categoryService.searchCategory(categoryRequest, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }
