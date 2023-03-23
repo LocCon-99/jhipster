@@ -1,6 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.model.CategoryRequest;
+import com.mycompany.myapp.model.CategoryResponse;
 import com.mycompany.myapp.repository.CategoryRepository;
 import com.mycompany.myapp.service.CategoryService;
 import com.mycompany.myapp.service.dto.CategoryDTO;
@@ -181,11 +182,11 @@ public class CategoryResource {
     }
 
     @PostMapping("/categories/search")
-    public ResponseEntity<List<CategoryDTO>> search(
+    public ResponseEntity<List<CategoryResponse>> search(
         @RequestBody CategoryRequest categoryRequest,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
-        Page<CategoryDTO> page = categoryService.searchCategory(categoryRequest, pageable);
+        Page<CategoryResponse> page = categoryService.searchCategory(categoryRequest, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
