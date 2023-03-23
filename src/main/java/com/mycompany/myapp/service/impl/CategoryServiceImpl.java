@@ -1,10 +1,12 @@
 package com.mycompany.myapp.service.impl;
 
 import com.mycompany.myapp.domain.Category;
+import com.mycompany.myapp.model.CategoryRequest;
 import com.mycompany.myapp.repository.CategoryRepository;
 import com.mycompany.myapp.service.CategoryService;
 import com.mycompany.myapp.service.dto.CategoryDTO;
 import com.mycompany.myapp.service.mapper.CategoryMapper;
+import com.mycompany.myapp.utils.contants;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO save(CategoryDTO categoryDTO) {
         log.debug("Request to save Category : {}", categoryDTO);
         Category category = categoryMapper.toEntity(categoryDTO);
+        category.setStatus(contants.Status.ACTIVE);
         category = categoryRepository.save(category);
         return categoryMapper.toDto(category);
     }
@@ -80,5 +83,10 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Long id) {
         log.debug("Request to delete Category : {}", id);
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<CategoryDTO> searchCategory(CategoryRequest categoryRequest, Pageable pageable) {
+        return null;
     }
 }
