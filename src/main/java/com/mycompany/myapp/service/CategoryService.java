@@ -1,6 +1,7 @@
 package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.model.CategoryRequest;
+import com.mycompany.myapp.model.CategoryResponse;
 import com.mycompany.myapp.service.dto.CategoryDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -57,5 +58,5 @@ public interface CategoryService {
      */
     void delete(Long id);
 
-    Page<CategoryDTO> searchCategory(CategoryRequest categoryRequest, Pageable pageable);
+    Page<CategoryResponse> searchCategory(CategoryRequest categoryRequest, Pageable pageable);
 }

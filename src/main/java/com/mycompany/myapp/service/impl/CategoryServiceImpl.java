@@ -2,7 +2,9 @@ package com.mycompany.myapp.service.impl;
 
 import com.mycompany.myapp.domain.Category;
 import com.mycompany.myapp.model.CategoryRequest;
+import com.mycompany.myapp.model.CategoryResponse;
 import com.mycompany.myapp.repository.CategoryRepository;
+import com.mycompany.myapp.repository.custom.CategoryRepositoryCustom;
 import com.mycompany.myapp.service.CategoryService;
 import com.mycompany.myapp.service.dto.CategoryDTO;
 import com.mycompany.myapp.service.mapper.CategoryMapper;
@@ -11,6 +13,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+    private CategoryRepositoryCustom categoryRepositoryCustom;
+
+    public CategoryServiceImpl(
+        CategoryRepository categoryRepository,
+        CategoryMapper categoryMapper,
+        CategoryRepositoryCustom categoryRepositoryCustom
+    ) {
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
     }
@@ -86,7 +95,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoryDTO> searchCategory(CategoryRequest categoryRequest, Pageable pageable) {
-        return null;
+    public Page<CategoryResponse> searchCategory(CategoryRequest categoryRequest, Pageable pageable) {
+        long count = categoryRepositoryCustom.count(categoryRequest);
+        var listCategory = categoryRepositoryCustom.search(categoryRequest, pageable);
+        return new PageImpl<>(listCategory, pageable, count);
     }
 }
