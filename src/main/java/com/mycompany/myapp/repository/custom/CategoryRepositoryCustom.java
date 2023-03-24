@@ -1,8 +1,7 @@
 package com.mycompany.myapp.repository.custom;
 
 import com.mycompany.myapp.model.CategoryRequest;
-import com.mycompany.myapp.model.CategoryResponse;
-import com.mycompany.myapp.service.dto.CategoryDTO;
+import com.mycompany.myapp.model.response.CategoryResponse;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 

@@ -1,11 +1,11 @@
 package com.mycompany.myapp.repository.custom.impl;
 
 import com.mycompany.myapp.model.CategoryRequest;
-import com.mycompany.myapp.model.CategoryResponse;
+import com.mycompany.myapp.model.response.CategoryResponse;
 import com.mycompany.myapp.repository.custom.CategoryRepositoryCustom;
-import com.mycompany.myapp.service.dto.CategoryDTO;
-import com.mycompany.myapp.utils.DataUtils;
+import com.mycompany.myapp.utils.Datautils;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -23,16 +23,29 @@ public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom {
     @Override
     public List<CategoryResponse> search(CategoryRequest category, Pageable pageable) {
         Query query = buildQuerySearch(category, pageable);
-        List<CategoryResponse> objs = query.getResultList();
-        return objs;
+        List<Object[]> objs = query.getResultList();
+        if (Datautils.notNullOrEmpty(objs)) {
+            List<CategoryResponse> result = new LinkedList<>();
+            for (Object[] obj : objs) {
+                int i = 0;
+                CategoryResponse e = new CategoryResponse();
+                e.setId(Datautils.safeToString(obj[i++]));
+                e.setName(Datautils.safeToString(obj[i++]));
+                e.setDescription(Datautils.safeToString(obj[i++]));
+                e.setStatus(Datautils.safeToString(obj[i++]));
+                result.add(e);
+            }
+            return result;
+        }
+        return new LinkedList<>();
     }
 
     private Query buildQuerySearch(CategoryRequest request, Pageable pageable) {
-        String from = pageable == null ? "COUNT(1)\n" : "c.id," + " c.name," + " c.description," + " c.status";
+        String from = pageable == null ? "COUNT(1)\n" : "c.id," + " c.name," + " c.description," + " c.status\n";
         String select = "Select\n" + from + "from category c where 1=1\n";
         StringBuilder sb = new StringBuilder(select);
         Map<String, Object> params = new HashMap<>();
-        if (DataUtils.notNullOrEmpty(request.getName())) {
+        if (Datautils.notNullOrEmpty(request.getName())) {
             sb.append("and (UPPER(c.name) LIKE CONCAT('%',UPPER(:name),'%'))\n");
             params.put("name", request.getName());
         }
@@ -49,6 +62,6 @@ public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom {
     @Override
     public long count(CategoryRequest categoryRequest) {
         Query query = buildQuerySearch(categoryRequest, null);
-        return DataUtils.safeToLong(query.getSingleResult());
+        return Datautils.safeToLong(query.getSingleResult());
     }
 }
